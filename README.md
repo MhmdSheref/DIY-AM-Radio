@@ -8,7 +8,7 @@
 
 ---
 
-## 📌 1. Project Overview
+## 1. Project Overview
 
 Every amplitude-modulation (AM) radio receiver begins with two foundational stages:
 1. **The Tuned Tank Circuit ($LC$ resonator):** Selects one desired transmission frequency out of all incoming electromagnetic signals while rejecting out-of-band interference.
@@ -23,7 +23,7 @@ Below is the complete schematic for Milestone 1, showing the ESP32 transmitter s
 
 ---
 
-## 📐 2. Theoretical Design & Mathematical Predictions
+## 2. Theoretical Design & Mathematical Predictions
 
 ### 2.1 Inductance of the Hand-Wound Coil
 The receiver coil was hand-wound using 0.3 mm enamelled copper wire over a 50 mm outer-diameter polyvinyl chloride (PVC) pipe. The coil consists of $n = 75$ close-wound turns spanning a length of $l = 25\text{ mm}$.
@@ -102,7 +102,7 @@ Since $1.43\,\mu\text{s} \ll 49.5\,\mu\text{s} \ll 1000\,\mu\text{s}$, the filte
 
 ---
 
-## 🧪 3. The Engineering Journey & Troubleshooting
+## 3. The Engineering Journey & Troubleshooting
 
 ### 3.1 Day 1: Wave Generation & The Common Ground Trap
 We began by creating our AM test signal. Because laboratory function generators were limited in output voltage and laptop audio sound cards are capped at 20 kHz (far short of the required 700 kHz AM broadcast carrier), we used an **ESP32** microcontroller. We configured its built-in digital-to-analog converter (DAC) on GPIO 25 to output a synthesized AM wave:
@@ -195,13 +195,13 @@ With the coils aligned and tuned in resonance, we observed our final received si
 * **Yellow Trace (CH1):** Shows the extracted envelope tone cleanly oscillating at $f = 1.002\text{ kHz}$ ($V_{pp} = 1.180\text{ V}$).
 * **Why Unclipped?** Unlike the high-voltage transformer test, the air-coupled coil delivers an induced EMF of $\sim 400\text{ mV}$ peak. This voltage operates near the gentle curvature of the 1N60P diode characteristic, preserving the complete envelope shape without hard saturation clipping.
 
-#### 🔊 The Ultimate Test
+#### The Ultimate Test
 To test the output beyond the oscilloscope, we connected TP3 into an audio IC amplifier driving a desktop speaker:
 > **The 1 kHz audio tone was clearly audible across the room!** The transmitter beamed the tone through the air from the ESP32 to the passive tank, and the detector recovered the audio signal.
 
 ---
 
-## 💻 4. ESP32 Transmitter Firmware
+## 4. ESP32 Transmitter Firmware
 
 The transmitter code uses ESP-IDF I2S DMA streaming to output an AM modulated carrier on GPIO 25:
 
@@ -269,42 +269,7 @@ void loop() {
 }
 ```
 
----
-
-## 🎨 5. How to Easily Draw Real Circuit Diagrams
-
-To replace ASCII sketches with publication-quality schematics, you don't need heavy CAD suites like Altium or KiCad. Two fast approaches work best:
-
-### Approach A: Python `schemdraw` (Used in this Guide)
-The Python library `schemdraw` lets you write schematic diagrams programmatically in clean, readable Python code and exports directly to high-resolution PNG or vector SVG:
-
-```bash
-pip install schemdraw matplotlib
-```
-
-Minimal example:
-```python
-import schemdraw
-import schemdraw.elements as elm
-
-with schemdraw.Drawing(file='detector.svg') as d:
-    d += elm.Diode().label('1N60P')
-    d += elm.Dot()
-    d += elm.Resistor().down().label('15 kΩ')
-    d += elm.Capacitor().right().label('3.3 nF')
-    d += elm.Ground()
-```
-
-The script that generated the diagrams in this guide is saved in [`generate_circuits.py`](generate_circuits.py). Run `python3 generate_circuits.py` anytime to update them.
-
-### Approach B: Interactive In-Browser Tools
-* **[CircuitJS (Falstad)](https://falstad.com/circuit/):** Instant, in-browser interactive circuit simulator with schematic export.
-* **[Wokwi](https://wokwi.com/):** Ideal for ESP32/Arduino circuit mockups and breadboard simulations.
-* **[draw.io (diagrams.net)](https://app.diagrams.net/):** Free vector diagramming tool with built-in Electrical / Electronic symbol libraries.
-
----
-
-## 📊 6. Summary of Results
+## 5. Summary of Results
 
 | Measurement / Checkpoint | Expected / Target | Measured / Observed | Status |
 | :--- | :--- | :--- | :---: |
